@@ -1,0 +1,85 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.projecttlc" />
+    <!-- <bean id="helloController" class="ihubtek.demo.hello.controller.HelloController"> -->
+    <!-- </bean> -->
+    <!-- <bean id="helloService" class="ihubtek.demo.hello.service.HelloService"> -->
+    <!-- </bean> -->
+
+    <bean
+        class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix">
+            <value>/WEB-INF/views/</value>
+        </property>
+        <property name="suffix">
+            <value>.jsp</value>
+        </property>
+    </bean>
+    
+     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/projectehome?useUnicode=true&amp;characterEncoding=UTF-8" />
+        <property name="username" value="root" />
+        <property name="password" value="" />
+     </bean>
+
+
+     <bean id="userDAO" class="com.projecttlc.dao.UserDAOImpl">
+     <constructor-arg ref="dataSource" />
+     </bean>
+
+    <bean id="postLocalDAO" class="com.projecttlc.dao.PostLocalDAPOImpl">
+        <constructor-arg ref="dataSource" />
+    </bean>
+
+    <bean id="postDAO" class="com.projecttlc.dao.PostDAOImpl">
+        <constructor-arg ref="dataSource" />
+    </bean>
+
+    <bean id="postLocalPostDAO" class="com.projecttlc.dao.PostLocalPostDAOImpl">
+        <constructor-arg ref="dataSource" />
+    </bean>
+
+    <bean id="categoriesDAO" class="com.projecttlc.dao.CategoriesDAOImpl">
+        <constructor-arg ref="dataSource" />
+    </bean>
+
+    <bean id="topicUserDAO" class="com.projecttlc.dao.TopicUserDAOImpl">
+        <constructor-arg ref="dataSource" />
+    </bean>
+
+    <bean id="messageDAO" class="com.projecttlc.dao.MessageDAOImpl">
+        <constructor-arg ref="dataSource" />
+    </bean>
+
+    <bean id="messageRecevierDAO" class="com.projecttlc.dao.MessageRecevierDAOImpl">
+        <constructor-arg ref="dataSource" />
+    </bean>
+
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+
+        <!-- Maximum file size: 1MB -->
+        <!-- 1MB = 125000 Byte -->
+        <!-- max upload size in bytes -->
+        <property name="maxUploadSize" value="20971520" /> <!-- 20MB -->
+
+        <!-- max size of file in memory (in bytes) -->
+        <property name="maxInMemorySize" value="1048576" /> <!-- 1MB -->
+
+
+    </bean>
+
+    <mvc:resources mapping="/resources/**" location="/resources/" />
+    <mvc:annotation-driven />
+
+</beans>
